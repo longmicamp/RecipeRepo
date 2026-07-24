@@ -85,11 +85,14 @@
   border-radius: 8px;
   font-size: 1rem;
   outline: none;
-  color: #ffffff;
+  color: #6b7280;
   background: #fdefcf;
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
+}
+.login-field input::placeholder {
+  color: #9ca3af; /* whatever color you want */
 }
 
 .login-field input:focus {

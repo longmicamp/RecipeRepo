@@ -10,16 +10,17 @@ export async function login(
   email: string,
   password: string,
 ): Promise<AuthResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
+  // implement when auth is setup
+  // const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify({ email, password }),
+  // });
 
-  if (!response.ok) {
-    const detail = await response.json().catch(() => null);
-    throw new Error(detail?.detail ?? "Login failed");
-  }
+  // if (!response.ok) {
+  //   const detail = await response.json().catch(() => null);
+  //   throw new Error(detail?.detail ?? "Login failed");
+  // }
 
-  return response.json();
+  return Promise.resolve({ access_token: "dummy_token", token_type: "bearer" });
 }

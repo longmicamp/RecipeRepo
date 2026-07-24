@@ -3,12 +3,14 @@ import type { SubmitEvent } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import "./Login.css";
 import { RotatingLines } from "react-loader-spinner";
+import { useNavigate } from 'react-router';
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { loading, error, signIn } = useAuth();
+  const { token, loading, error, signIn } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,6 +23,10 @@ function Login() {
 
     // Call the signIn function from the useAuth hook
     await signIn(email, password);
+    if (token) {
+      console.log("Login successful! Token:", token);
+      navigate('/home'); // Redirect to the dashboard or another page after successful login
+    }
 
     console.log("Logging in with", { email });
   };
