@@ -3,18 +3,19 @@
 }
 
 .navbar {
-    width: 30%;
-    max-width: 300px;
-    background-color: #f1d3aa;
-    height: 100vh;
+  position: relative;
+  width: 30%;
+  max-width: 300px;
+  background-color: #ebdbc6;
+  height: 100vh;
 }
 
 .recipe-list {
-  width: 70%;
+  flex: 1;
   gap: 1rem;
   padding: 2rem;
+  background-color: #fcfcfc;
 }
-
 
 .navbar-links {
   display: flex;
@@ -22,10 +23,53 @@
   gap: 0.75rem;
 }
 
+.search-button {
+  margin-left: 1rem;
+  padding: 0.75rem;
+  border: 2px solid #be4e11;
+  border-radius: 15px;
+  color: #be4e11;
+  background-color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-decoration: none;
+}
+
+.search-button:hover {
+  background-color: #be4e11;
+  color: #ffffff;
+}
+
+.create-button {
+  margin-left: 0.5rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 15px;
+  color: #ffffff;
+  background-color: #be4e11;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-decoration: none;
+  border: 2px solid #ffffff;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.create-button:hover {
+  background-color: #ffffff;
+  color: #be4e11;
+  border: 2px solid #be4e11;
+}
+
 .nav-button {
   margin-top: 0.5rem;
   margin-left: 1rem;
   padding: 0.75rem;
+  margin-right: 8%;
   border: none;
   border-radius: 8px;
   color: #8f6d60;
@@ -44,72 +88,116 @@
   background: #c5bab8;
   position: relative;
   bottom: 1px;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   vertical-align: middle;
+}
+
+.recipe-list-title {
+  font-size: 1.5rem;
+  color: #58443c;
+  margin: 0;
+  margin-left: 0.5rem;
 }
 .nav-button:hover::before {
   background: white;
 }
 .nav-button:hover {
-    margin-right:10px;
-  background: #ea580c;
+  margin-right: 8%;
+  background: #be4e11;
   color: aliceblue;
 }
 
 .horizontal-line {
-    display: flex;
-  border-top: 1.3px solid #b6a9a7;         
-  margin: 20px 0; 
-  margin-left: 1.6rem; 
-      left: -1.8vh;          
-    top: 85vh;
-    position: absolute;
-    width: 30vh;
+  display: flex;
+  align-items: center;
+  border-top: 1.3px solid #b6a9a7;
+  margin: 0;
+  left: 5%;
+  bottom: 3rem;
+  position: absolute;
+  width: 90%;
+  padding-top: 1rem;
+  box-sizing: border-box;
 }
-
 .search-input-wrapper {
-    position: relative;
-    width: 60%;
+  position: relative;
+  width: 75%;
+  max-width: 700px;
 }
 
 .search-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.recipe-header {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.recipe-count {
+  font-size: 1rem;
+  color: #97918e;
+  margin-top: 1.5rem;
+}
+
+.recipe-list-title::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #c5bab8;
+  border-radius: 50%;
+  position: relative;
+  bottom: 1px;
+  margin-left: 1rem;
+  vertical-align: middle;
 }
 
 .search-icon {
-    position: absolute;
-    left: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.9rem;
-    pointer-events: none;
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 2px solid #8f6d60;
+  background: transparent;
+  box-sizing: border-box;
+  pointer-events: none;
 }
 
 .search-input {
-    width: 100%;
-    padding: 0.6rem 0.75rem 0.6rem 2.2rem;
-    border: 1.5px solid #6b7280;
-    border-radius: 20px;
-    background: #f3f4f6;
-    font-size: 1rem;
-    outline: none;
-    box-sizing: border-box;
+  color: #221b18;
+  width: 100%;
+  padding: 0.6rem 0.75rem 0.6rem 2.75rem;
+  border: 1.5px solid #6b7280;
+  border-radius: 20px;
+  background: #f3f4f6;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
 }
 
 .large-horizontal-line {
-    border-top: 1.3px solid #b6a9a7;   
-    margin-top: 1.5rem;
+  border-top: 1.3px solid #b6a9a7;
+  margin-top: 1.5rem;
+  margin-left: -2rem;
+  margin-right: -2rem;
 }
 
 .profile-image {
-    margin-top: 4vh;
-    margin-left: 2vh;
+  margin: 0;
+  margin-left: 0.5rem;
 }
 .profile-name {
-    font-size: 1rem;
-    color: #58443c;
-    margin-top: 4vh;
-    margin-left: 2vh;
+  font-size: 1rem;
+  color: #58443c;
+  margin: 0;
+  margin-left: 1rem;
 }
