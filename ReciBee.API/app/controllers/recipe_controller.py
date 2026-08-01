@@ -27,8 +27,19 @@ async def get_recipes():
 
 @router.get("/{recipe_id}", response_model=RecipeResponse)
 async def get_recipe(recipe_id: int):
-    # TODO: Implement fetching a single recipe
-    raise HTTPException(status_code=501, detail="Not implemented")
+    return {
+        "id": recipe_id,
+        "title": "Sample Recipe",
+        "description": "This is a sample recipe description.",
+        "ingredients": ["1 cup of flour", "2 eggs", "1/2 cup of sugar"],
+        "instructions": [
+            "Preheat the oven to 350°F (175°C).",
+            "Mix all ingredients in a bowl.",
+            "Pour the mixture into a baking pan.",
+            "Bake for 30 minutes or until golden brown.",
+        ],
+    }
+    # raise HTTPException(status_code=501, detail="Not implemented")
 
 
 @router.post("/", response_model=RecipeResponse, status_code=201)
