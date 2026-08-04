@@ -1,6 +1,10 @@
 import "./recipe.css";
 import heroImage from "../../assets/hero.png";
 import { useEffect } from "react";
+import { useRecipe } from "../../hooks/useRecipe";
+import { useParams } from "react-router";
+
+// const { token, loading, error, signIn } = useAuth();
 
 const ingredients = [
   { quantity: "1 whole", name: "chicken (~1.8kg)" },
@@ -25,11 +29,17 @@ const steps = [
 ];
 
 function RecipePage() {
+  const { id } = useParams<{ id: string }>();
+  const { recipe, loading, error, fetchRecipe } = useRecipe();
   const rating = 3;
 
   useEffect(() => {
-    console.log("Component loaded!");
-  }, []);
+    if (!id) return;
+    const fetchData = async () => {
+      await fetchRecipe(id);
+    };
+    fetchData();
+  }, [id]);
   return (
     <div className="recipe-page">
       <div className="recipe-hero">

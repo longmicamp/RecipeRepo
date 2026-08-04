@@ -6,10 +6,9 @@ interface AuthResponse {
   token_type: string;
 }
 
-export async function login(
-  email: string,
-  password: string,
-): Promise<AuthResponse> {
+export async function login(): Promise<AuthResponse> {
+// email: string,
+// password: string,
   // implement when auth is setup
   // const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
   //   method: "POST",

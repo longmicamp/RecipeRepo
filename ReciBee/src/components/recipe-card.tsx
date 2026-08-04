@@ -4,6 +4,7 @@ import burritoImage from "../assets/Burrito_1200x800.jpg";
 import { useNavigate } from "react-router";
 
 const RecipeCard = ({
+  id,
   title,
   cookingTime,
   category,
@@ -14,7 +15,7 @@ const RecipeCard = ({
   const filledStars = Math.round(rating);
 
   return (
-    <div className="recipe-card" onClick={() => navigate(`/recipe`)}>
+    <div className="recipe-card" onClick={() => navigate(`/recipe/${id}`)}>
       <div className="recipe-card-image">
         <img src={burritoImage} alt={title} className="recipe-card-img" />
         <span className="recipe-card-badge">{category}</span>

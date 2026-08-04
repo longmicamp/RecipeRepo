@@ -1,0 +1,53 @@
+from fastapi import APIRouter, Body, Request, Response, HTTPException, status
+from pydantic import BaseModel
+
+from models import Recipe
+
+router = APIRouter(prefix="/api/recipes", tags=["Recipes"])
+
+
+class RecipeCreate(BaseModel):
+    title: str
+    description: str
+    ingredients: list[str]
+    instructions: list[str]
+
+
+class RecipeResponse(BaseModel):
+    id: int
+    title: str
+    description: str
+    ingredients: list[str]
+    instructions: list[str]
+
+
+@router.get("/", response_model=list[RecipeResponse])
+async def get_recipes():
+    # TODO: Implement fetching all recipes
+    raise HTTPException(status_code=501, detail="Not implemented")
+
+
+@router.get("/{recipe_id}", response_model=RecipeResponse)
+async def get_recipe(recipe_id: int, request: Request):
+    if (recipe := request.app.database["recipes"].find_one({"_id": recipe_id})) is not None:
+        return recipe
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Recipe with ID {recipe_id} not found")
+    # raise HTTPException(status_code=501, detail="Not implemented")
+
+
+@router.post("/", response_model=RecipeResponse, status_code=201)
+async def create_recipe(recipe: RecipeCreate):
+    # TODO: Implement recipe creation
+    raise HTTPException(status_code=501, detail="Not implemented")
+
+
+@router.put("/{recipe_id}", response_model=RecipeResponse)
+async def update_recipe(recipe_id: int, recipe: RecipeCreate):
+    # TODO: Implement recipe update
+    raise HTTPException(status_code=501, detail="Not implemented")
+
+
+@router.delete("/{recipe_id}", status_code=204)
+async def delete_recipe(recipe_id: int):
+    # TODO: Implement recipe deletion
+    raise HTTPException(status_code=501, detail="Not implemented")
