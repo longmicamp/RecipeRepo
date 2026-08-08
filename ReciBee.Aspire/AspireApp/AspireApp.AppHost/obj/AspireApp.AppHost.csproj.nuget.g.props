@@ -5,13 +5,12 @@
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Campb\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\campbell.longmire\.nuget\packages\</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">7.0.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="C:\Users\Campb\.nuget\packages\" />
-    <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
+    <SourceRoot Include="C:\Users\campbell.longmire\.nuget\packages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets\10.0.8\buildTransitive\net8.0\Microsoft.Extensions.Configuration.UserSecrets.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets\10.0.8\buildTransitive\net8.0\Microsoft.Extensions.Configuration.UserSecrets.props')" />
@@ -21,18 +20,18 @@
     <Import Project="$(NuGetPackageRoot)aspire.dashboard.sdk.win-x64\13.4.6\buildTransitive\Aspire.Dashboard.Sdk.win-x64.props" Condition="Exists('$(NuGetPackageRoot)aspire.dashboard.sdk.win-x64\13.4.6\buildTransitive\Aspire.Dashboard.Sdk.win-x64.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\Campb\.nuget\packages\microsoft.codeanalysis.analyzers\3.11.0</PkgMicrosoft_CodeAnalysis_Analyzers>
-    <PkgGrpc_Tools Condition=" '$(PkgGrpc_Tools)' == '' ">C:\Users\Campb\.nuget\packages\grpc.tools\2.80.0</PkgGrpc_Tools>
-    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">C:\Users\Campb\.nuget\packages\awssdk.core\4.0.7.1</PkgAWSSDK_Core>
-    <PkgAWSSDK_SSOOIDC Condition=" '$(PkgAWSSDK_SSOOIDC)' == '' ">C:\Users\Campb\.nuget\packages\awssdk.ssooidc\4.0.3.28</PkgAWSSDK_SSOOIDC>
-    <PkgAWSSDK_SSO Condition=" '$(PkgAWSSDK_SSO)' == '' ">C:\Users\Campb\.nuget\packages\awssdk.sso\4.0.2.27</PkgAWSSDK_SSO>
-    <PkgAWSSDK_SecurityToken Condition=" '$(PkgAWSSDK_SecurityToken)' == '' ">C:\Users\Campb\.nuget\packages\awssdk.securitytoken\4.0.6.3</PkgAWSSDK_SecurityToken>
-    <PkgAWSSDK_S3 Condition=" '$(PkgAWSSDK_S3)' == '' ">C:\Users\Campb\.nuget\packages\awssdk.s3\4.0.21.2</PkgAWSSDK_S3>
-    <PkgAWSSDK_Lambda Condition=" '$(PkgAWSSDK_Lambda)' == '' ">C:\Users\Campb\.nuget\packages\awssdk.lambda\4.0.15.2</PkgAWSSDK_Lambda>
-    <PkgAWSSDK_CloudFormation Condition=" '$(PkgAWSSDK_CloudFormation)' == '' ">C:\Users\Campb\.nuget\packages\awssdk.cloudformation\4.0.8.22</PkgAWSSDK_CloudFormation>
-    <PkgAWSSDK_BedrockAgentCore Condition=" '$(PkgAWSSDK_BedrockAgentCore)' == '' ">C:\Users\Campb\.nuget\packages\awssdk.bedrockagentcore\4.0.23.3</PkgAWSSDK_BedrockAgentCore>
-    <PkgAspire_Hosting_Orchestration_win-x64 Condition=" '$(PkgAspire_Hosting_Orchestration_win-x64)' == '' ">C:\Users\Campb\.nuget\packages\aspire.hosting.orchestration.win-x64\13.4.6</PkgAspire_Hosting_Orchestration_win-x64>
-    <PkgAspire_Hosting_AppHost Condition=" '$(PkgAspire_Hosting_AppHost)' == '' ">C:\Users\Campb\.nuget\packages\aspire.hosting.apphost\13.4.6</PkgAspire_Hosting_AppHost>
-    <PkgAspire_Dashboard_Sdk_win-x64 Condition=" '$(PkgAspire_Dashboard_Sdk_win-x64)' == '' ">C:\Users\Campb\.nuget\packages\aspire.dashboard.sdk.win-x64\13.4.6</PkgAspire_Dashboard_Sdk_win-x64>
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\campbell.longmire\.nuget\packages\microsoft.codeanalysis.analyzers\3.11.0</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgGrpc_Tools Condition=" '$(PkgGrpc_Tools)' == '' ">C:\Users\campbell.longmire\.nuget\packages\grpc.tools\2.80.0</PkgGrpc_Tools>
+    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">C:\Users\campbell.longmire\.nuget\packages\awssdk.core\4.0.7.1</PkgAWSSDK_Core>
+    <PkgAWSSDK_SSOOIDC Condition=" '$(PkgAWSSDK_SSOOIDC)' == '' ">C:\Users\campbell.longmire\.nuget\packages\awssdk.ssooidc\4.0.3.28</PkgAWSSDK_SSOOIDC>
+    <PkgAWSSDK_SSO Condition=" '$(PkgAWSSDK_SSO)' == '' ">C:\Users\campbell.longmire\.nuget\packages\awssdk.sso\4.0.2.27</PkgAWSSDK_SSO>
+    <PkgAWSSDK_SecurityToken Condition=" '$(PkgAWSSDK_SecurityToken)' == '' ">C:\Users\campbell.longmire\.nuget\packages\awssdk.securitytoken\4.0.6.3</PkgAWSSDK_SecurityToken>
+    <PkgAWSSDK_S3 Condition=" '$(PkgAWSSDK_S3)' == '' ">C:\Users\campbell.longmire\.nuget\packages\awssdk.s3\4.0.21.2</PkgAWSSDK_S3>
+    <PkgAWSSDK_Lambda Condition=" '$(PkgAWSSDK_Lambda)' == '' ">C:\Users\campbell.longmire\.nuget\packages\awssdk.lambda\4.0.15.2</PkgAWSSDK_Lambda>
+    <PkgAWSSDK_CloudFormation Condition=" '$(PkgAWSSDK_CloudFormation)' == '' ">C:\Users\campbell.longmire\.nuget\packages\awssdk.cloudformation\4.0.8.22</PkgAWSSDK_CloudFormation>
+    <PkgAWSSDK_BedrockAgentCore Condition=" '$(PkgAWSSDK_BedrockAgentCore)' == '' ">C:\Users\campbell.longmire\.nuget\packages\awssdk.bedrockagentcore\4.0.23.3</PkgAWSSDK_BedrockAgentCore>
+    <PkgAspire_Hosting_Orchestration_win-x64 Condition=" '$(PkgAspire_Hosting_Orchestration_win-x64)' == '' ">C:\Users\campbell.longmire\.nuget\packages\aspire.hosting.orchestration.win-x64\13.4.6</PkgAspire_Hosting_Orchestration_win-x64>
+    <PkgAspire_Hosting_AppHost Condition=" '$(PkgAspire_Hosting_AppHost)' == '' ">C:\Users\campbell.longmire\.nuget\packages\aspire.hosting.apphost\13.4.6</PkgAspire_Hosting_AppHost>
+    <PkgAspire_Dashboard_Sdk_win-x64 Condition=" '$(PkgAspire_Dashboard_Sdk_win-x64)' == '' ">C:\Users\campbell.longmire\.nuget\packages\aspire.dashboard.sdk.win-x64\13.4.6</PkgAspire_Dashboard_Sdk_win-x64>
   </PropertyGroup>
 </Project>

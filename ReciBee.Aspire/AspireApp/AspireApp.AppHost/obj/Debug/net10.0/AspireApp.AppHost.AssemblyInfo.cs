@@ -11,19 +11,21 @@ using System;
 using System.Reflection;
 
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("0d1c672d-78b4-4764-8a6f-84c509d056b5")]
-[assembly: System.Reflection.AssemblyMetadata("dcpclipath", ("C:\\Users\\Campb\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\13.4.6\\tools\\" +
-    "dcp.exe"))]
-[assembly: System.Reflection.AssemblyMetadata("dcpextensionpaths", ("C:\\Users\\Campb\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\13.4.6\\tools\\" +
-    "ext\\"))]
-[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", "D:\\Projects\\RepiBee\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost")]
+[assembly: System.Reflection.AssemblyMetadata("dcpclipath", ("C:\\Users\\campbell.longmire\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\1" +
+    "3.4.6\\tools\\dcp.exe"))]
+[assembly: System.Reflection.AssemblyMetadata("dcpextensionpaths", ("C:\\Users\\campbell.longmire\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\1" +
+    "3.4.6\\tools\\ext\\"))]
+[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", ("C:\\Users\\campbell.longmire\\Documents\\Recipe\\RecipeRepo\\ReciBee.Aspire\\AspireApp\\A" +
+    "spireApp.AppHost"))]
 [assembly: System.Reflection.AssemblyMetadata("apphostprojectname", "AspireApp.AppHost.csproj")]
-[assembly: System.Reflection.AssemblyMetadata("aspiredashboardpath", ("C:\\Users\\Campb\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\13.4.6\\tools\\Aspire.D" +
-    "ashboard.exe"))]
-[assembly: System.Reflection.AssemblyMetadataAttribute("apphostprojectbaseintermediateoutputpath", "D:\\Projects\\RepiBee\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\obj\\")]
+[assembly: System.Reflection.AssemblyMetadata("aspiredashboardpath", ("C:\\Users\\campbell.longmire\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\13.4.6\\to" +
+    "ols\\Aspire.Dashboard.exe"))]
+[assembly: System.Reflection.AssemblyMetadataAttribute("apphostprojectbaseintermediateoutputpath", ("C:\\Users\\campbell.longmire\\Documents\\Recipe\\RecipeRepo\\ReciBee.Aspire\\AspireApp\\A" +
+    "spireApp.AppHost\\obj\\"))]
 [assembly: System.Reflection.AssemblyCompanyAttribute("AspireApp.AppHost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b9d9c947665674fa23d20ff174492eb1cb20383b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a80315bcd381331f9b56d196291760859bb5c027")]
 [assembly: System.Reflection.AssemblyProductAttribute("AspireApp.AppHost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AspireApp.AppHost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

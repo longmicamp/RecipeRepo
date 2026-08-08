@@ -17,5 +17,5 @@ public class AspireApp_AppHost
     /// <summary>
     /// The path to the Aspire Host project.
     /// </summary>
-    public static string ProjectPath => """D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost""";
+    public static string ProjectPath => """C:\Users\campbell.longmire\Documents\Recipe\RecipeRepo\ReciBee.Aspire\AspireApp\AspireApp.AppHost""";
 }

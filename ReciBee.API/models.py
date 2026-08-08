@@ -45,6 +45,16 @@ class CookTime(BaseModel):
             }
         }
 
+class RecipeBrief(BaseModel)
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
+    recipeId: int
+    name: str
+    serves: int
+    rating: float
+    createdUserId: int
+    cookTime: CookTime
+    imageUrl: Optional[str] = None
+
 
 class Recipe(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")

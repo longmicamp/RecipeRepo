@@ -1,33 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\RepiBee\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\AspireApp.AppHost.csproj": {}
+    "C:\\Users\\campbell.longmire\\Documents\\Recipe\\RecipeRepo\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\AspireApp.AppHost.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\RepiBee\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\AspireApp.AppHost.csproj": {
+    "C:\\Users\\campbell.longmire\\Documents\\Recipe\\RecipeRepo\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\AspireApp.AppHost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\RepiBee\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\AspireApp.AppHost.csproj",
+        "projectUniqueName": "C:\\Users\\campbell.longmire\\Documents\\Recipe\\RecipeRepo\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\AspireApp.AppHost.csproj",
         "projectName": "AspireApp.AppHost",
-        "projectPath": "D:\\Projects\\RepiBee\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\AspireApp.AppHost.csproj",
-        "packagesPath": "C:\\Users\\Campb\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\RepiBee\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\obj\\",
+        "projectPath": "C:\\Users\\campbell.longmire\\Documents\\Recipe\\RecipeRepo\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\AspireApp.AppHost.csproj",
+        "packagesPath": "C:\\Users\\campbell.longmire\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\campbell.longmire\\Documents\\Recipe\\RecipeRepo\\ReciBee.Aspire\\AspireApp\\AspireApp.AppHost\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Campb\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\campbell.longmire\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://www.myget.org/F/barwon-health-prompt/auth/093fdbe7-aaf5-49f8-ac82-f4c9801a9051/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
@@ -45,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -111,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
