@@ -19,20 +19,30 @@ var python = builder.AddUvicornApp(
         name: "python-api",
         appDirectory: apiPath,
         app: "main:app")
-    .WithHttpEndpoint(port: 8000, env: "PORT")
+    .WithHttpEndpoint(port: 8000, env: "UVICORN_PORT")
     .WithReference(reciBeeDB);
 
-builder.AddProject<Projects.AspireApp_ApiService>("reciBee-api")
-    .WithReference(python);
+// Alternative to AddUvicornApp: run uvicorn as a plain executable.
+// Useful if you need an explicit interpreter/venv path instead of the
+// auto-detected .venv, or want full control over the launch args.
+// var python = builder.AddExecutable(
+//         name: "python-api",
+//         command: Path.Combine(apiPath, ".venv", "Scripts", "python.exe"),
+//         workingDirectory: apiPath,
+//         args: ["-m", "uvicorn", "main:app", "--port", "8000"])
+//     .WithHttpEndpoint(port: 8000, env: "UVICORN_PORT")
+//     .WithReference(reciBeeDB);
 
-// Run Website (Vite/React) on port 4200
+// Run Website (Vite/React). Aspire assigns the port via the PORT env var,
+// which vite.config.ts reads for its dev server.
 var websitePath = Path.GetFullPath(
     Path.Combine(builder.Environment.ContentRootPath, "..", "..", "..", "ReciBee"));
 
-builder.AddViteApp("recibee-website", websitePath, "dev")
+builder.AddNpmApp("recibee-website", websitePath, "dev")
+    .WithHttpEndpoint(env: "PORT")
+    .WithExternalHttpEndpoints()
     .WithReference(python)
-    .WaitFor(python)
     .WithEnvironment("VITE_API_BASE_URL", python.GetEndpoint("http"))
-    .WithNpmPackageInstallation();
+    .WaitFor(python);
 
 builder.Build().Run();

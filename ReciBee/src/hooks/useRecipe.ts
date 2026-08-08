@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getRecipe, type Recipe } from "../services/recipeService";
+import { getRecipe, Recipe } from "../services/recipeService";
 
 export function useRecipe() {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -11,7 +11,7 @@ export function useRecipe() {
     setError("");
     try {
       const data = await getRecipe(recipeId);
-      setRecipe(data);
+      setRecipe(new Recipe(data));
     } catch (err) {
       setError("No data for this Recipe ID.");
     } finally {

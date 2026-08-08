@@ -3,8 +3,6 @@ D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0\AspireApp.AppHost.AssemblyInfoInputs.cache
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0\AspireApp.AppHost.AssemblyInfo.cs
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0\AspireApp.AppHost.csproj.CoreCompileInputs.cache
-D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0\Aspire\references\AspireApp_ApiService.ProjectMetadata.g.cs
-D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0\Aspire\references\AspireApp_Web.ProjectMetadata.g.cs
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0\Aspire\references\_AppHost.ProjectMetadata.g.cs
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0\AspireApp.AppHost.sourcelink.json
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\bin\Debug\net10.0\AspireApp.AppHost.exe
@@ -208,3 +206,4 @@ D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\bin\Debug\net10.0
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
 D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Projects\RepiBee\ReciBee.Aspire\AspireApp\AspireApp.AppHost\obj\Debug\net10.0\Aspire\references\.ProjectMetadata.g.cs

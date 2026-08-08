@@ -2,34 +2,11 @@ import "./recipe.css";
 import heroImage from "../../assets/hero.png";
 import { useEffect } from "react";
 import { useRecipe } from "../../hooks/useRecipe";
-import { useParams } from "react-router";
-
-// const { token, loading, error, signIn } = useAuth();
-
-const ingredients = [
-  { quantity: "1 whole", name: "chicken (~1.8kg)" },
-  { quantity: "2 tbsp", name: "olive oil" },
-  { quantity: "4 cloves", name: "garlic, crushed" },
-  { quantity: "½ bunch", name: "fresh thyme" },
-];
-
-const steps = [
-  {
-    text: "Heat oven to 220°C. Pat the chicken dry and rub all over with oil, salt, and pepper.",
-    image: null,
-  },
-  {
-    text: "Scatter garlic and thyme in the pan. Roast 70 minutes, basting once, until the juices run clear.",
-    image: heroImage,
-  },
-  {
-    text: "Rest 15 minutes before carving. Spoon over the pan juices to serve.",
-    image: null,
-  },
-];
+import { useLocation, useParams } from "react-router";
 
 function RecipePage() {
-  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const { id } = location.state || {};
   const { recipe, loading, error, fetchRecipe } = useRecipe();
   const rating = 3;
 
@@ -38,6 +15,10 @@ function RecipePage() {
     const fetchData = async () => {
       await fetchRecipe(id);
     };
+    if (recipe) {
+      console.log("Fetched recipe:", recipe);
+    }
+
     fetchData();
   }, [id]);
   return (
@@ -50,7 +31,7 @@ function RecipePage() {
         />
         <div className="recipe-hero-overlay">
           <span className="recipe-hero-badge">Dinner</span>
-          <h1 className="recipe-hero-title">Roast chicken &amp; herbs</h1>
+          <h1 className="recipe-hero-title">{recipe?.name || "Recipe Name"}</h1>
         </div>
       </div>
 
@@ -136,9 +117,11 @@ function RecipePage() {
         <section className="recipe-ingredients">
           <h2 className="recipe-section-title">Ingredients</h2>
           <ul className="ingredient-list">
-            {ingredients.map((item, i) => (
+            {recipe?.ingredients.map((item, i) => (
               <li key={i} className="ingredient-item">
-                <span className="ingredient-quantity">{item.quantity}</span>{" "}
+                <span className="ingredient-quantity">
+                  {item.quantityAmount} {item.quantityUnit}
+                </span>{" "}
                 {item.name}
               </li>
             ))}
@@ -148,15 +131,15 @@ function RecipePage() {
         <section className="recipe-method">
           <h2 className="recipe-section-title">Method</h2>
           <ol className="method-list">
-            {steps.map((step, i) => (
+            {recipe?.steps.map((step, i) => (
               <li key={i} className="method-step">
                 <span className="method-number">{i + 1}</span>
                 <div className="method-content">
                   <p className="method-text">{step.text}</p>
-                  {step.image && (
+                  {step.imageUrl && (
                     <img
                       className="method-image"
-                      src={step.image}
+                      src={step.imageUrl}
                       alt={`Step ${i + 1}`}
                     />
                   )}

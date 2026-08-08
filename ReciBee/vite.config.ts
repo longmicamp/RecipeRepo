@@ -7,16 +7,17 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
-      port: parseInt(env.VITE_PORT),
+      port: Number(process.env.PORT ?? env.VITE_PORT) || 5173,
       proxy: {
-        // "apiservice" is the name of the API in AppHost.cs.
+        // "python-api" is the name of the API resource in AppHost.cs.
+        // Aspire's dev proxy serves this endpoint over HTTPS (self-signed),
+        // so target https and disable cert verification with secure:false.
         "/api": {
           target:
-            process.env.services__apiservice__https__0 ||
-            process.env.services__apiservice__http__0,
+            process.env["services__python-api__https__0"] ||
+            "https://localhost:8000",
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
     },

@@ -3,8 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from pymongo import MongoClient
 
-from app.controllers.authentication_controller import router as auth_router
-from app.controllers.recipe_controller import router as recipe_router
+from app.routers.authentication import router as auth_router
+from app.routers.recipe import router as recipe_router
 
 app = FastAPI(title="ReciBee API")
 
@@ -19,7 +19,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(recipe_router)
 
-connection_string = os.environ.get("ConnectionStrings__mydb")
+connection_string = os.environ.get("ConnectionStrings__reciBee")
 
 @app.on_event("startup")
 def startup_db_client():

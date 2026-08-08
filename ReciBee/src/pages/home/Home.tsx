@@ -9,6 +9,7 @@ const recipes: RecipeCardType[] = [
     category: "Italian",
     rating: 4.8,
     serves: 2,
+    id: 5,
   },
   {
     title: "Chicken Tikka Masala",
@@ -16,6 +17,7 @@ const recipes: RecipeCardType[] = [
     category: "Indian",
     rating: 4.6,
     serves: 4,
+    id: 4,
   },
   {
     title: "Avocado Toast",
@@ -23,6 +25,7 @@ const recipes: RecipeCardType[] = [
     category: "Breakfast",
     rating: 4.2,
     serves: 1,
+    id: 3,
   },
   {
     title: "Beef Tacos",
@@ -30,6 +33,7 @@ const recipes: RecipeCardType[] = [
     category: "Mexican",
     rating: 4.7,
     serves: 3,
+    id: 2,
   },
   {
     title: "Greek Salad",
@@ -37,6 +41,7 @@ const recipes: RecipeCardType[] = [
     category: "Salad",
     rating: 4.4,
     serves: 2,
+    id: 1,
   },
 ];
 

@@ -15,7 +15,10 @@ const RecipeCard = ({
   const filledStars = Math.round(rating);
 
   return (
-    <div className="recipe-card" onClick={() => navigate(`/recipe/${id}`)}>
+    <div
+      className="recipe-card"
+      onClick={() => navigate(`/recipe`, { state: { id } })}
+    >
       <div className="recipe-card-image">
         <img src={burritoImage} alt={title} className="recipe-card-img" />
         <span className="recipe-card-badge">{category}</span>

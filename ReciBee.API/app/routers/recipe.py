@@ -1,7 +1,9 @@
+from typing import Optional
+
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from pydantic import BaseModel
 
-from models import Recipe
+from models import Recipe, Ingredient, Instruction
 
 router = APIRouter(prefix="/api/recipes", tags=["Recipes"])
 
@@ -15,10 +17,10 @@ class RecipeCreate(BaseModel):
 
 class RecipeResponse(BaseModel):
     id: int
-    title: str
-    description: str
-    ingredients: list[str]
-    instructions: list[str]
+    name: str
+    imageUrl: Optional[str] = None
+    ingredients: list[Ingredient]
+    steps: list[Instruction]
 
 
 @router.get("/", response_model=list[RecipeResponse])
@@ -27,9 +29,9 @@ async def get_recipes():
     raise HTTPException(status_code=501, detail="Not implemented")
 
 
-@router.get("/{recipe_id}", response_model=RecipeResponse)
+@router.get("/{recipe_id}", response_model=Recipe)
 async def get_recipe(recipe_id: int, request: Request):
-    if (recipe := request.app.database["recipes"].find_one({"_id": recipe_id})) is not None:
+    if (recipe := request.app.database["recipe-info"].find_one({"recipeId": recipe_id})) is not None:
         return recipe
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Recipe with ID {recipe_id} not found")
     # raise HTTPException(status_code=501, detail="Not implemented")
