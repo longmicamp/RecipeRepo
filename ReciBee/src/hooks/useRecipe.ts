@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { getRecipe, Recipe } from "../services/recipeService";
+import { getRecipe, getRecipes, Recipe } from "../services/recipeService";
 
 export function useRecipe() {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -19,5 +20,18 @@ export function useRecipe() {
     }
   };
 
-  return { recipe, loading, error, fetchRecipe };
+  const fetchRecipes = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await getRecipes();
+      setRecipes(data.map((item) => new Recipe(item)));
+    } catch (err) {
+      setError("Failed to load recipes.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { recipe, recipes, loading, error, fetchRecipe, fetchRecipes };
 }
