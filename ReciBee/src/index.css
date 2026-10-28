@@ -30,11 +30,18 @@
   }
 }
 
+@font-face {
+  font-family: "GreaseFont";
+  src: url("./assets/fonts/CSGreasy.otf") format("oft");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
-    --bg: #fcf4ee;
+    --bg: #faf9f8;
     --border: #2e303a;
     --code-bg: #1f2028;
     --accent: #c084fc;

@@ -1,37 +1,59 @@
-import { useState } from "react";
-import { getRecipe, getRecipes, Recipe } from "../services/recipeService";
+import { useCallback, useState } from "react";
+import { getRecipe, getRecipes, RecipeCard } from "../services/recipeService";
+import type { Recipe } from "../services/recipeService";
+import { useAuth } from "react-oidc-context";
 
-export function useRecipe() {
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+export function useRecipes() {
+  const [recipes, setRecipes] = useState<RecipeCard[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const auth = useAuth();
 
-  const fetchRecipe = async (recipeId: string) => {
-    setLoading(true);
-    setError("");
-    try {
-      const data = await getRecipe(recipeId);
-      setRecipe(new Recipe(data));
-    } catch (err) {
-      setError("No data for this Recipe ID.");
-    } finally {
-      setLoading(false);
+  const fetchRecipes = useCallback(async () => {
+    if (!auth.user) {
+      setError("Not signed in.");
+      return;
     }
-  };
-
-  const fetchRecipes = async () => {
     setLoading(true);
     setError("");
     try {
-      const data = await getRecipes();
-      setRecipes(data.map((item) => new Recipe(item)));
+      const data = await getRecipes(auth.user.access_token);
+      setRecipes(data.map((item) => new RecipeCard(item)));
     } catch (err) {
       setError("Failed to load recipes.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [auth.user]);
 
-  return { recipe, recipes, loading, error, fetchRecipe, fetchRecipes };
+  return { recipes, loading, error, fetchRecipes };
+}
+
+export function useRecipe() {
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const auth = useAuth();
+
+  const fetchRecipe = useCallback(
+    async (recipeId: string) => {
+      if (!auth.user) {
+        setError("Not signed in.");
+        return;
+      }
+      setLoading(true);
+      setError("");
+      try {
+        const data = await getRecipe(recipeId);
+        setRecipe(data);
+      } catch (err) {
+        setError("No data for this Recipe ID.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [auth.user],
+  );
+
+  return { recipe, loading, error, fetchRecipe };
 }

@@ -1,55 +1,44 @@
 import "./Home.css";
 import RecipeCard from "../../components/recipe-card";
-import type { RecipeCard as RecipeCardType } from "../../types/recipe-card";
-
-const recipes: RecipeCardType[] = [
-  {
-    title: "Spaghetti Carbonara",
-    cookingTime: "25 min",
-    category: "Italian",
-    rating: 4.8,
-    serves: 2,
-    id: 5,
-  },
-  {
-    title: "Chicken Tikka Masala",
-    cookingTime: "45 min",
-    category: "Indian",
-    rating: 4.6,
-    serves: 4,
-    id: 4,
-  },
-  {
-    title: "Avocado Toast",
-    cookingTime: "10 min",
-    category: "Breakfast",
-    rating: 4.2,
-    serves: 1,
-    id: 3,
-  },
-  {
-    title: "Beef Tacos",
-    cookingTime: "30 min",
-    category: "Mexican",
-    rating: 4.7,
-    serves: 3,
-    id: 2,
-  },
-  {
-    title: "Greek Salad",
-    cookingTime: "15 min",
-    category: "Salad",
-    rating: 4.4,
-    serves: 2,
-    id: 1,
-  },
-];
+import { useEffect, useState } from "react";
+import { useRecipes } from "../../hooks/useRecipe";
+import { useAuth } from "react-oidc-context";
+import RecipeCreationModal from "../../modals/recipe-creation/recipe-creation";
 
 function Home() {
+  const { recipes, loading, error, fetchRecipes } = useRecipes();
+  const [showModal, setShowModal] = useState(false);
+
+  const auth = useAuth();
+  useEffect(() => {
+    if (!auth.isAuthenticated) return;
+    fetchRecipes();
+  }, [auth.isAuthenticated, fetchRecipes]);
+
+  console.log("auth debug:", {
+    isLoading: auth.isLoading,
+    isAuthenticated: auth.isAuthenticated,
+    error: auth.error,
+    activeNavigator: auth.activeNavigator,
+    user: auth.user,
+    url: window.location.href,
+  });
+
   return (
     <main className="home-page">
+      {showModal ? (
+        <div className="modal-container">
+          <RecipeCreationModal
+            isOpen={showModal}
+            onClose={() => setShowModal(false)}
+            onSelectOption={(option) => {
+              /* "write" | "url" | "photos" */
+            }}
+          />
+        </div>
+      ) : null}
       <div className="navbar">
-        <h1 className="home-title">The Chopping Block</h1>
+        <h1 className="home-title">The Grease Pit</h1>
         <nav className="navbar-links">
           <a className="nav-button" href="#">
             My Recipes
@@ -82,7 +71,9 @@ function Home() {
             />
           </div>
           <button className="search-button">Search</button>
-          <button className="create-button">+ Create</button>
+          <button className="create-button" onClick={() => setShowModal(true)}>
+            + Create
+          </button>
         </div>
         <div className="large-horizontal-line"></div>
         <div className="recipes">

@@ -1,16 +1,24 @@
 import { useState } from "react";
 import type { SubmitEvent } from "react";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "react-oidc-context";
 import "./Login.css";
 import { RotatingLines } from "react-loader-spinner";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 
 function Login() {
+  const auth = useAuth();
+
+  const signOutRedirect = () => {
+    const clientId = "20qf3imk30mr42205id1b1h1da";
+    const logoutUri = "<logout uri>";
+    const cognitoDomain =
+      "https://ap-southeast-2rcqwarb2z.auth.ap-southeast-2.amazoncognito.com";
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  };
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { token, loading, error, signIn } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,14 +29,19 @@ function Login() {
       return;
     }
 
+    if (auth.isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (auth.error) {
+      return <div>Encountering error... {auth.error.message}</div>;
+    }
+
     // Call the signIn function from the useAuth hook
     await signIn(email, password);
     if (token) {
       console.log("Login successful! Token:", token);
-      navigate('/home'); // Redirect to the dashboard or another page after successful login
     }
-
-    console.log("Logging in with", { email });
   };
 
   return (
@@ -38,7 +51,7 @@ function Login() {
         <h2 className="company-name">LPI Inc.</h2>
       </div>
       <div className="login-form-container">
-        {loading ? (
+        {auth.isLoading ? (
           <Loader />
         ) : (
           <form className="login-card" onSubmit={handleSubmit}>
@@ -69,13 +82,16 @@ function Login() {
               />
             </label>
 
-            {(errorMessage || error) && (
-              <p className="login-error">{errorMessage || error}</p>
+            {(errorMessage || auth.error) && (
+              <p className="login-error">
+                {errorMessage || auth.error.message}
+              </p>
             )}
 
-            <button type="submit" className="login-button">
-              Sign in
-            </button>
+            <div>
+              <button onClick={() => auth.signinRedirect()}>Sign in</button>
+              <button onClick={() => signOutRedirect()}>Sign out</button>
+            </div>
 
             <p className="login-footer">
               Don't have an account? <a href="#">Sign up</a>

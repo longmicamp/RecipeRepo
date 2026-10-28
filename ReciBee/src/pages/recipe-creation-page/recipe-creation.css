@@ -1,0 +1,486 @@
+.recipe-creation-page {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  box-sizing: border-box;
+  background-color: #faf9f8;
+  color: #3a2c26;
+}
+
+.save-button {
+  margin-left: 0.5rem;
+  justify-content: flex-end;
+  display: flex;
+  margin-left: auto;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 15px;
+  color: #ffffff;
+  background-color: #be4e11;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-decoration: none;
+  border: 2px solid #ffffff;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.save-button:hover {
+  background-color: #ffffff;
+  color: #be4e11;
+  border: 2px solid #be4e11;
+}
+
+.back-button {
+  margin-left: 0.5rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 15px;
+  color: #797474;
+  background-color: #fcf4ee;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-decoration: none;
+  border: 2px solid #fcf4ee;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.back-button:hover {
+  background-color: #fcf4ee;
+  color: #646464;
+  border: 2px solid #fcf4ee;
+}
+
+.recipe-creation-page .header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.recipe-creation-page .large-horizontal-line {
+  border-top: 1.3px solid #b6a9a7;
+  margin-top: 1.5rem;
+  margin-left: -2rem;
+  margin-right: -2rem;
+}
+
+/* ---------- Recipe name ---------- */
+
+.title-section {
+  margin-top: 1.75rem;
+}
+
+.recipe-name-input {
+  width: 100%;
+  padding: 1.1rem 1.25rem;
+  border: 2px solid #eee7e3;
+  border-radius: 15px;
+  background-color: #ffffff;
+  color: #3a2c26;
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+}
+
+.recipe-name-input::placeholder {
+  color: #c0ada6;
+  font-weight: 500;
+}
+
+.recipe-name-input:focus {
+  outline: none;
+  border-color: #be4e11;
+}
+
+/* ---------- Sections ---------- */
+
+.creation-section {
+  margin-top: 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.section-title {
+  margin: 0 0 0.9rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #3a2c26;
+}
+
+.section-header .section-title {
+  margin: 0;
+}
+
+/* ---------- Shared field styling (matches button size + radius) ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #8f6d60;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #eee7e3;
+  border-radius: 15px;
+  background-color: #ffffff;
+  color: #3a2c26;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+}
+
+.field-input::placeholder {
+  color: #c0ada6;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #be4e11;
+}
+
+select.field-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238f6d60' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 18px;
+  padding-right: 2.5rem;
+}
+
+.notes-input {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.field-error {
+  margin: 0.5rem 0 0;
+  color: #c0392b;
+  font-size: 0.9rem;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ---------- Photo + details row ---------- */
+
+.photo-details-row {
+  display: grid;
+  grid-template-columns: minmax(340px, 5fr) 7fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.photo-column,
+.details-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.photo-column .image-dropzone {
+  flex: 1;
+}
+
+.details-column > .field {
+  flex: 1;
+}
+
+.details-column > .field .notes-input {
+  flex: 1;
+}
+
+/* ---------- Image dropzone ---------- */
+
+.image-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 190px;
+  padding: 1.5rem;
+  border: 2px dashed #d8cdc8;
+  border-radius: 15px;
+  background-color: #fcf4ee;
+  color: #8f6d60;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.image-dropzone:hover,
+.image-dropzone-active {
+  border-color: #be4e11;
+  background-color: #fff9f4;
+}
+
+.dropzone-icon {
+  width: 38px;
+  height: 38px;
+  color: #be4e11;
+}
+
+.dropzone-text {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #58443c;
+}
+
+.dropzone-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #a08a80;
+}
+
+.dropzone-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.dropzone-preview-img {
+  max-height: 220px;
+  max-width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.dropzone-preview-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dropzone-filename {
+  font-size: 0.9rem;
+  color: #58443c;
+}
+
+/* ---------- Add / remove buttons ---------- */
+
+.add-button {
+  padding: 0.75rem;
+  border: 2px solid #be4e11;
+  border-radius: 15px;
+  background-color: #ffffff;
+  color: #be4e11;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.add-button:hover {
+  background-color: #be4e11;
+  color: #ffffff;
+}
+
+.remove-button {
+  padding: 0.75rem;
+  border: 2px solid #eee7e3;
+  border-radius: 15px;
+  background-color: #fcf4ee;
+  color: #8f6d60;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.remove-button:hover:not(:disabled) {
+  background-color: #ffffff;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+.remove-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- Ingredient rows ---------- */
+
+.row-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ingredient-row {
+  display: grid;
+  grid-template-columns: 110px 130px 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* ---------- Step rows ---------- */
+
+.step-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 1rem;
+  border: 1px solid #eee7e3;
+  border-radius: 15px;
+  background-color: #fffdfc;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #be4e11;
+  color: #ffffff;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.step-text {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.step-image-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.step-image-button {
+  padding: 0.75rem;
+  border: 2px dashed #d8cdc8;
+  border-radius: 15px;
+  background-color: #fcf4ee;
+  color: #8f6d60;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.step-image-button:hover {
+  border-color: #be4e11;
+  color: #be4e11;
+}
+
+.step-image-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.step-preview-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1000px) {
+  .photo-details-row {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-column .image-dropzone {
+    flex: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .recipe-creation-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .recipe-creation-page .large-horizontal-line {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ingredient-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ingredient-name {
+    grid-column: 1 / -1;
+  }
+
+  .step-row {
+    grid-template-columns: auto 1fr;
+  }
+
+  .step-row > .remove-button {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

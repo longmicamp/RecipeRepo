@@ -151,6 +151,10 @@
   margin-top: 1.5rem;
 }
 
+.home-title {
+  font-family: "GreaseFont", cursive;
+}
+
 .recipe-list-title::after {
   content: "";
   display: inline-block;

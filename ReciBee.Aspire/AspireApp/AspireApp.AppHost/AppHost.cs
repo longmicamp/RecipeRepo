@@ -39,7 +39,7 @@ var websitePath = Path.GetFullPath(
     Path.Combine(builder.Environment.ContentRootPath, "..", "..", "..", "ReciBee"));
 
 builder.AddNpmApp("recibee-website", websitePath, "dev")
-    .WithHttpEndpoint(env: "PORT")
+    .WithHttpEndpoint(env: "PORT", port: 5173)
     .WithExternalHttpEndpoints()
     .WithReference(python)
     .WithEnvironment("VITE_API_BASE_URL", python.GetEndpoint("http"))

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:4200/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script type="module" src="./Books For The Whanau_files/client"></script>
+
+  
+  <title>Books For The Whanau</title>
+  <!--<base href="/">--><base href=".">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="http://localhost:4200/favicon.ico">
+<link rel="stylesheet" href="./Books For The Whanau_files/styles.css"><style ng-style-reused="">
+
+*[_ngcontent-ng-c2287557793] {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body[_ngcontent-ng-c2287557793] {
+  font-family:
+    sans-serif,
+    Helvetica,
+    sans-serif;
+  line-height: 1.6;
+}
+.loading-overlay[_ngcontent-ng-c2287557793] {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.432);
+  z-index: 1500;
+  pointer-events: all;
+}
+.loading-overlay[_ngcontent-ng-c2287557793]   object.wheel[_ngcontent-ng-c2287557793] {
+  width: 96px;
+  height: 96px;
+  flex: 0 0 auto;
+}
+.wheel[_ngcontent-ng-c2287557793] {
+  position: static !important;
+  left: auto !important;
+  padding-top: 0 !important;
+  margin: 0 !important;
+}
+.search-container[_ngcontent-ng-c2287557793] {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9fafb;
+  padding: 1rem;
+}
+.book-card[_ngcontent-ng-c2287557793] {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+}
+.search-content[_ngcontent-ng-c2287557793] {
+  width: 100%;
+  max-width: 42rem;
+}
+.search-header[_ngcontent-ng-c2287557793] {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.search-header[_ngcontent-ng-c2287557793]   .search-title[_ngcontent-ng-c2287557793] {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  font-family: sans-serif;
+}
+.search-header[_ngcontent-ng-c2287557793]   .search-subtitle[_ngcontent-ng-c2287557793] {
+  font-family: sans-serif;
+  color: #6b7280;
+  font-size: 1rem;
+}
+.search-form[_ngcontent-ng-c2287557793] {
+  display: contents;
+  gap: 0.5rem;
+  align-items: center;
+}
+.search-form[_ngcontent-ng-c2287557793]   .input-wrapper[_ngcontent-ng-c2287557793] {
+  position: relative;
+  flex: 1;
+}
+.search-form[_ngcontent-ng-c2287557793]   .input-wrapper[_ngcontent-ng-c2287557793]   .search-icon[_ngcontent-ng-c2287557793] {
+  position: absolute;
+  left: 0.75rem;
+  top: 40%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  width: 1rem;
+  height: 1rem;
+}
+.search-form[_ngcontent-ng-c2287557793]   .input-wrapper[_ngcontent-ng-c2287557793]   .search-input[_ngcontent-ng-c2287557793] {
+  margin-bottom: 2%;
+  width: 75%;
+  height: 3rem;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  font-size: 1.125rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background-color: white;
+  transition: all 0.2s ease-in-out;
+}
+.search-form[_ngcontent-ng-c2287557793]   .input-wrapper[_ngcontent-ng-c2287557793]   .search-input[_ngcontent-ng-c2287557793]:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.search-form[_ngcontent-ng-c2287557793]   .input-wrapper[_ngcontent-ng-c2287557793]   .search-input[_ngcontent-ng-c2287557793]::placeholder {
+  color: #9ca3af;
+}
+.search-form[_ngcontent-ng-c2287557793]   .search-button[_ngcontent-ng-c2287557793] {
+  height: 3rem;
+  padding: 0 2rem;
+  background-color: #1f2937;
+  margin-left: 7%;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.search-form[_ngcontent-ng-c2287557793]   .search-button[_ngcontent-ng-c2287557793]:hover {
+  background-color: #374151;
+}
+.search-form[_ngcontent-ng-c2287557793]   .search-button[_ngcontent-ng-c2287557793]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
+}
+@media (max-width: 640px) {
+  .search-header[_ngcontent-ng-c2287557793]   .search-title[_ngcontent-ng-c2287557793] {
+    font-size: 1.875rem;
+  }
+  .search-form[_ngcontent-ng-c2287557793] {
+    flex-direction: column;
+    left: 20vh;
+    gap: 1rem;
+  }
+  .search-form[_ngcontent-ng-c2287557793]   .input-wrapper[_ngcontent-ng-c2287557793] {
+    width: 100%;
+  }
+  .search-form[_ngcontent-ng-c2287557793]   .search-button[_ngcontent-ng-c2287557793] {
+    width: 100%;
+  }
+  .search-form[_ngcontent-ng-c2287557793]   .input-wrapper[_ngcontent-ng-c2287557793]   .search-icon[_ngcontent-ng-c2287557793] {
+    top: 3.8vh;
+    margin-left: 12vw;
+  }
+  .search-form[_ngcontent-ng-c2287557793]   .search-input[_ngcontent-ng-c2287557793] {
+    margin-left: 12vw;
+  }
+  .search-form[_ngcontent-ng-c2287557793]   .search-button[_ngcontent-ng-c2287557793] {
+    margin-left: 12vw;
+    width: 75%;
+  }
+}
+.no-results[_ngcontent-ng-c2287557793] {
+  text-align: center;
+  margin: 1rem 0;
+  font-family:
+    sans-serif,
+    Helvetica,
+    sans-serif;
+}
+.no-results[_ngcontent-ng-c2287557793]   p[_ngcontent-ng-c2287557793] {
+  color: #bf1f1f;
+  font-size: 1.05rem;
+  margin: 0;
+}
+/*# sourceMappingURL=/app.component.css.map */</style></head>
+<body><!--nghm-->
+  <app-root ng-version="20.1.0" _nghost-ng-c2287557793="" ngh="0" ng-server-context="ssg"><div _ngcontent-ng-c2287557793="" class="search-container"><div _ngcontent-ng-c2287557793="" class="search-content"><div _ngcontent-ng-c2287557793="" class="search-header"><h1 _ngcontent-ng-c2287557793="" class="search-title">Search Library</h1><p _ngcontent-ng-c2287557793="" class="search-subtitle">Find the book you're looking for</p></div><div _ngcontent-ng-c2287557793="" class="search-form"><div _ngcontent-ng-c2287557793="" class="input-wrapper"><svg _ngcontent-ng-c2287557793="" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle _ngcontent-ng-c2287557793="" cx="11" cy="11" r="8"></circle><path _ngcontent-ng-c2287557793="" d="m21 21-4.35-4.35"></path></svg><input _ngcontent-ng-c2287557793="" type="text" id="search-input" placeholder="Enter your search query..." class="search-input ng-pristine ng-valid ng-touched"><button _ngcontent-ng-c2287557793="" class="search-button">Search</button></div><!--container--><div _ngcontent-ng-c2287557793="" class="listitems"><!--container--><!--container--></div></div></div></div></app-root>
+<script src="./Books For The Whanau_files/polyfills.js.download" type="module"></script><script src="./Books For The Whanau_files/main.js.download" type="module"></script>
+
+<script id="ng-state" type="application/json">{"__nghData__":[{"t":{"15":"t0","17":"t1","18":"t2"},"c":{"15":[],"17":[],"18":[]}}]}</script></body></html>

@@ -1,16 +1,10 @@
-import type { RecipeCard as RecipeCardType } from "../types/recipe-card";
+import type { RecipeCardData as RecipeCardType } from "../types/recipe-data";
 import "./recipe-card.css";
 import burritoImage from "../assets/Burrito_1200x800.jpg";
 import { useNavigate } from "react-router";
 
-const RecipeCard = ({
-  id,
-  title,
-  cookingTime,
-  category,
-  rating,
-  serves,
-}: RecipeCardType) => {
+const RecipeCard = (props: RecipeCardType) => {
+  const { id, title, cookingTime, category, rating, serves } = props;
   const navigate = useNavigate();
   const filledStars = Math.round(rating);
 

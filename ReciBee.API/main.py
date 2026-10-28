@@ -23,8 +23,8 @@ connection_string = os.environ.get("ConnectionStrings__reciBee")
 
 @app.on_event("startup")
 def startup_db_client():
-    app.mongodb_client = MongoClient(connection_string)
-    app.database = app.mongodb_client["reciBee"]
+    os.environ.get("ConnectionStrings__reciBee")
+    app.database = app.mongodb_client["recipe-db"]
     print("Connected to the MongoDB database!")
 
 @app.get("/")
