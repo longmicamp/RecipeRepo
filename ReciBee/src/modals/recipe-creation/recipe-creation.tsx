@@ -29,7 +29,7 @@ function RecipeCreationModal({
           ×
         </button>
 
-        <h2 className="recipe-creation-title">Add a new Recipe</h2>
+        <h2 className="recipe-creation-title">Add a new Recipe add</h2>
         <p className="recipe-creation-subtitle">Please select an option</p>
 
         <div className="recipe-creation-options">
