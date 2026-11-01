@@ -3,8 +3,6 @@ import type { SubmitEvent } from "react";
 import { useAuth } from "react-oidc-context";
 import "./Login.css";
 import { RotatingLines } from "react-loader-spinner";
-import { useNavigate } from "react-router";
-
 function Login() {
   const auth = useAuth();
 
@@ -37,11 +35,11 @@ function Login() {
       return <div>Encountering error... {auth.error.message}</div>;
     }
 
-    // Call the signIn function from the useAuth hook
-    await signIn(email, password);
-    if (token) {
-      console.log("Login successful! Token:", token);
-    }
+    // // Call the signIn function from the useAuth hook
+    // await signIn(email, password);
+    // if (token) {
+    //   console.log("Login successful! Token:", token);
+    // }
   };
 
   return (
@@ -83,9 +81,7 @@ function Login() {
             </label>
 
             {(errorMessage || auth.error) && (
-              <p className="login-error">
-                {errorMessage || auth.error.message}
-              </p>
+              <p className="login-error">{errorMessage}</p>
             )}
 
             <div>

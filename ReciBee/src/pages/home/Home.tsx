@@ -6,7 +6,7 @@ import { useAuth } from "react-oidc-context";
 import RecipeCreationModal from "../../modals/recipe-creation/recipe-creation";
 
 function Home() {
-  const { recipes, loading, error, fetchRecipes } = useRecipes();
+  const { recipes, fetchRecipes } = useRecipes();
   const [showModal, setShowModal] = useState(false);
 
   const auth = useAuth();
@@ -31,7 +31,7 @@ function Home() {
           <RecipeCreationModal
             isOpen={showModal}
             onClose={() => setShowModal(false)}
-            onSelectOption={(option) => {
+            onSelectOption={() => {
               /* "write" | "url" | "photos" */
             }}
           />

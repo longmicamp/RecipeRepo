@@ -1,5 +1,9 @@
 import type { RecipeCardData } from "../types/recipe-data";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://container-app-c9b4.bravewater-eec3c7fa.westus2.azurecontainerapps.io";
+
 export type Difficulty = "Easy" | "Medium" | "Hard";
 export type CookingTime = { hours: number; minutes: number };
 export type Ingredient = {
@@ -41,7 +45,7 @@ export class RecipeCard {
 export async function getRecipe(recipeId: string): Promise<Recipe> {
   // Use a relative URL so the request goes through the Vite dev-server proxy
   // (see vite.config.ts). This avoids cross-origin, CORS, and http/https issues.
-  const response = await fetch(`/api/recipes/${recipeId}`);
+  const response = await fetch(`${API_BASE_URL}/api/recipes/${recipeId}`);
   if (!response.ok) {
     throw new Error("Failed to fetch recipe");
   }
@@ -51,9 +55,10 @@ export async function getRecipe(recipeId: string): Promise<Recipe> {
 }
 
 export async function getRecipes(token: string): Promise<RecipeCard[]> {
+  console.log("Api base URL:", API_BASE_URL);
   // Use a relative URL so the request goes through the Vite dev-server proxy
   // (see vite.config.ts). This avoids cross-origin, CORS, and http/https issues.
-  const response = await fetch(`/api/recipes`, {
+  const response = await fetch(`${API_BASE_URL}/api/recipes`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

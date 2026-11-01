@@ -535,7 +535,7 @@ function RecipeCreationPage() {
                           type: "UPDATE_STEP_IMAGE",
                           payload: {
                             index,
-                            image: e.target.files?.[0] ?? null,
+                            file: e.target.files?.[0] ?? null,
                           },
                         })
                       }
@@ -553,7 +553,7 @@ function RecipeCreationPage() {
                         onClick={() =>
                           dispatch({
                             type: "UPDATE_STEP_IMAGE",
-                            payload: { index, image: null },
+                            payload: { index, file: null },
                           })
                         }
                       >

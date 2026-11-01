@@ -9,11 +9,13 @@ import { AuthProvider } from "react-oidc-context";
 import { WebStorageStateStore } from "oidc-client-ts";
 import RecipeCreationPage from "./pages/recipe-creation-page/recipe-creation.tsx";
 
+const hostName = window.location.origin;
+
 const cognitoAuthConfig = {
   authority:
     "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_rcqwarb2z",
   client_id: "20qf3imk30mr42205id1b1h1da",
-  redirect_uri: "http://localhost:5173/home",
+  redirect_uri: `${hostName}/home`,
   response_type: "code",
   scope: "email openid phone",
   // Default is sessionStorage, which is per-tab and lost if the flow lands in a
