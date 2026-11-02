@@ -45,7 +45,7 @@ function Login() {
   return (
     <main className="login-page">
       <div className="login-image">
-        <h1 className="login-site-name">RepiBee</h1>
+        <h1 className="login-site-name">RepiMee</h1>
         <h2 className="company-name">LPI Inc.</h2>
       </div>
       <div className="login-form-container">
