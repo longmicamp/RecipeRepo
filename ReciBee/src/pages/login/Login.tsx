@@ -58,40 +58,18 @@ function Login() {
               Your recipe book, right where you left it.
             </p>
 
-            <label className="login-field">
-              <span>Email</span>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                autoComplete="email"
-              />
-            </label>
-
-            <label className="login-field">
-              <span>Password</span>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                autoComplete="current-password"
-              />
-            </label>
-
             {(errorMessage || auth.error) && (
               <p className="login-error">{errorMessage}</p>
             )}
 
             <div>
-              <button onClick={() => auth.signinRedirect()}>Sign in</button>
-              <button onClick={() => signOutRedirect()}>Sign out</button>
+              <button
+                onClick={() => auth.signinRedirect()}
+                className="login-button"
+              >
+                Sign in or up
+              </button>
             </div>
-
-            <p className="login-footer">
-              Don't have an account? <a href="#">Sign up</a>
-            </p>
           </form>
         )}
       </div>

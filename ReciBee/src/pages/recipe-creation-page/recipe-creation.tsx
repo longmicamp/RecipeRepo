@@ -248,10 +248,10 @@ function RecipeCreationPage() {
           }
         />
       </div>
-
+      <div className="large-horizontal-line"></div>
       <section className="creation-section photo-details-row">
-        <div className="photo-column">
-          <h2 className="section-title">Recipe Photo</h2>
+        <div className="photo-column field">
+          <span className="field-label">Photo</span>
           <div
             className={
               isDragging
@@ -321,7 +321,6 @@ function RecipeCreationPage() {
         </div>
 
         <div className="details-column">
-          <h2 className="section-title">Details</h2>
           <div className="details-grid">
             <label className="field">
               <span className="field-label">Prep Time</span>

@@ -13,6 +13,8 @@ app = FastAPI()
 
 allowed_origins = os.environ.get("AllowedOrigins", "").split(",")
 
+print(f"Allowed Origins: {allowed_origins}")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,

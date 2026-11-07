@@ -53,7 +53,8 @@ function Home() {
             Collections
           </a>
         </nav>
-        <div className="horizontal-line">
+        <div className="horizontal-line"></div>
+        <div className="profile">
           <img className="profile-image" id="my-api-image" src="" />
           <h3 className="profile-name" id="my-api-name">
             Username
