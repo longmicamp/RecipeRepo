@@ -1,6 +1,11 @@
 import { useCallback, useState } from "react";
-import { getRecipe, getRecipes, RecipeCard } from "../services/recipeService";
-import type { Recipe } from "../services/recipeService";
+import {
+  createRecipe,
+  getRecipe,
+  getRecipes,
+  RecipeCard,
+} from "../services/recipeService";
+import type { NewRecipe, Recipe } from "../types/recipe-data";
 import { useAuth } from "react-oidc-context";
 
 export function useRecipes() {
@@ -56,4 +61,36 @@ export function useRecipe() {
   );
 
   return { recipe, loading, error, fetchRecipe };
+}
+
+export function useCreateRecipe() {
+  const [createdId, setCreatedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const auth = useAuth();
+
+  const submitRecipe = useCallback(
+    async (recipe: NewRecipe): Promise<string | null> => {
+      if (!auth.user) {
+        setError("Not signed in.");
+        return null;
+      }
+      setLoading(true);
+      setError("");
+      try {
+        console.log("Submitting recipe:", recipe);
+        const id = await createRecipe(recipe, auth.user.access_token);
+        setCreatedId(id);
+        return id;
+      } catch (err) {
+        setError("Failed to create recipe.");
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [auth.user],
+  );
+
+  return { createdId, loading, error, createRecipe: submitRecipe };
 }

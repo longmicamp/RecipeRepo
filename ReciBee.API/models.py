@@ -1,8 +1,8 @@
 import uuid
-from typing import Optional
+from typing import Literal, Optional
 
 from bson import ObjectId
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class Ingredient(BaseModel):
@@ -45,6 +45,41 @@ class CookTime(BaseModel):
             }
         }
 
+class RecipeCreate(BaseModel):
+    name: str = Field(min_length=1)
+    description: Optional[str] = None
+    difficulty: Optional[Literal["Easy", "Medium", "Hard"]] = None
+    category: Optional[str] = None
+    createdDate: str
+    cookTime: CookTime
+    serves: int = Field(ge=1)
+    ingredients: list[Ingredient] = Field(min_length=1)
+    steps: list[Instruction] = Field(min_length=1)
+    imageUrl: Optional[str] = None
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "name": "Chocolate Chip Cookies",
+                "description": "Delicious homemade chocolate chip cookies.",
+                "difficulty": "Easy",
+                "createdDate": "2023-06-01T12:00:00Z",
+                "cookTime": {"hours": 0, "minutes": 25},
+                "serves": 12,
+                "ingredients": [
+                    {"name": "Flour", "quantityAmount": "1", "quantityUnit": "cup"},
+                    {"name": "Eggs", "quantityAmount": "2", "quantityUnit": "piece"},
+                ],
+                "steps": [
+                    {"step": 1, "text": "Preheat the oven to 175°C.", "imageUrl": None},
+                    {"step": 2, "text": "Mix all ingredients in a bowl.", "imageUrl": None},
+                ],
+                "imageUrl": None,
+            }
+        }
+    )
+
+
 class MongoModel(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
 
@@ -65,6 +100,8 @@ class RecipeBrief(MongoModel):
     serves: int
     rating: float
     createdUserId: str
+    category: Optional[str] = None
+    createdDate: str
     cookTime: CookTime
     imageUrl: Optional[str] = None
 
@@ -73,10 +110,12 @@ class Recipe(MongoModel):
     recipeId: int
     name: str
     description: Optional[str] = None
-    difficulty: str
+    difficulty: Optional[str] = None
+    category: Optional[str] = None
     serves: int
     rating: float
     createdUserId: str
+    createdDate: str
     cookTime: CookTime
     imageUrl: Optional[str] = None
     ingredients: list[Ingredient]
@@ -91,9 +130,11 @@ class Recipe(MongoModel):
                 "cookTime.hours": 1,
                 "cookTime.minutes": 1,
                 "createdUserId": '997ee458-80a1-70b3-5f77-b8c8d17e2187',
+                "createdDate": "2023-06-01T12:00:00Z",
                 "title": "Chocolate Chip Cookies",
                 "description": "Delicious homemade chocolate chip cookies.",
                 "difficulty": "Easy",
+                "category": "Dessert",
                 "ingredients": [
                     "1 cup of flour",
                     "2 eggs",
