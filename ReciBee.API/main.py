@@ -4,10 +4,10 @@ import os
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
+load_dotenv()
+
 from app.routers.authentication import router as auth_router
 from app.routers.recipe import router as recipe_router
-
-load_dotenv()
 
 app = FastAPI()
 

@@ -4,24 +4,25 @@ from fastapi import Depends, APIRouter, Body, Request, Response, HTTPException, 
 from pydantic import BaseModel
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt
-from models import Recipe, RecipeBrief, Ingredient, Instruction
+from pymongo import DESCENDING, ReturnDocument
+from models import Recipe, RecipeBrief, Ingredient, Instruction, RecipeCreate
 import requests
+import os
 
 router = APIRouter(prefix="/api/recipes", tags=["Recipes"])
 
-REGION = "ap-southeast-2"
-USER_POOL_ID = "ap-southeast-2_rcqwarb2z"
-CLIENT_ID = "20qf3imk30mr42205id1b1h1da"
-ISSUER = f"https://cognito-idp.{REGION}.amazonaws.com/{USER_POOL_ID}"
-JWKS = requests.get(f"{ISSUER}/.well-known/jwks.json").json()["keys"]
+TENANT_ID = os.environ["ENTRA_TENANT_ID"]
+TENANT_SUBDOMAIN = os.environ["ENTRA_TENANT_SUBDOMAIN"]
+API_CLIENT_ID = os.environ["ENTRA_API_CLIENT_ID"]
+REQUIRED_SCOPE = "recipes.readwrite"
+
+METADATA_URL = f"https://{TENANT_SUBDOMAIN}.ciamlogin.com/{TENANT_ID}/v2.0/.well-known/openid-configuration"
+
+metadata = requests.get(METADATA_URL).json()
+ISSUER = metadata["issuer"]
+JWKS = requests.get(metadata["jwks_uri"]).json()["keys"]
 
 bearer = HTTPBearer()
-
-class RecipeCreate(BaseModel):
-    title: str
-    description: str
-    ingredients: list[str]
-    instructions: list[str]
 
 
 class RecipeResponse(BaseModel):
@@ -35,12 +36,13 @@ def get_current_user(creds: HTTPAuthorizationCredentials = Depends(bearer)) -> s
     try:
         claims = jwt.decode(
             creds.credentials, JWKS, algorithms=["RS256"],
-            issuer=ISSUER, audience=CLIENT_ID,
-            options={"verify_aud": False},  # access tokens carry client_id, not aud — see note below
+            issuer=ISSUER, audience=API_CLIENT_ID,
         )
+    except (claims.get("scp") is None or REQUIRED_SCOPE not in claims["scp"].split()):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient scope")
     except jwt.JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-    return claims["sub"]  # stable Cognito user id
+    return claims["oid"]  
 
 @router.get("", response_model=list[RecipeBrief])
 async def get_recipes(request: Request, user_id: str = Depends(get_current_user)):
@@ -58,13 +60,46 @@ async def get_recipe(recipe_id: int, request: Request):
     # raise HTTPException(status_code=501, detail="Not implemented")
 
 
-@router.post("", response_model=Recipe, status_code=201)
-async def create_recipe(recipe: Recipe, request: Request):
-    if (recipe := request.app.database["recipe-info"].insert_one({recipe})) is true: 
-        return recipe
-    # TODO: Implement recipe creation
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Recipe {recipe.recipeId} could not be added")
-    # raise HTTPException(status_code=501, detail="Not implemented")
+def next_recipe_id(db) -> int:
+    counters = db["counters"]
+    counter = counters.find_one_and_update(
+        {"_id": "recipeId"}, {"$inc": {"seq": 1}}, return_document=ReturnDocument.AFTER
+    )
+    if counter is None:
+        highest = db["recipe-info"].find_one(sort=[("recipeId", DESCENDING)], projection={"recipeId": 1})
+        counters.update_one(
+            {"_id": "recipeId"},
+            {"$setOnInsert": {"seq": highest["recipeId"] if highest else 0}},
+            upsert=True,
+        )
+        counter = counters.find_one_and_update(
+            {"_id": "recipeId"}, {"$inc": {"seq": 1}}, return_document=ReturnDocument.AFTER
+        )
+    return counter["seq"]
+
+
+@router.post("", response_model=Recipe, status_code=status.HTTP_201_CREATED)
+async def create_recipe(
+    recipe: RecipeCreate,
+    request: Request,
+    user_id: str = Depends(get_current_user),
+):
+    db = request.app.database
+
+    new_recipe = Recipe(
+        **recipe.model_dump(),
+        recipeId=next_recipe_id(db),
+        createdUserId=user_id,
+        rating=0,
+    )
+
+    result = db["recipe-info"].insert_one(new_recipe.model_dump(by_alias=True))
+    if not result.acknowledged:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Recipe could not be saved",
+        )
+    return new_recipe
 
 
 @router.put("/{recipe_id}", response_model=RecipeResponse)

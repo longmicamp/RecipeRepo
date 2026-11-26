@@ -4,7 +4,7 @@ import burritoImage from "../assets/Burrito_1200x800.jpg";
 import { useNavigate } from "react-router";
 
 const RecipeCard = (props: RecipeCardType) => {
-  const { id, title, cookingTime, category, rating, serves } = props;
+  const { id, title, cookTime, category, rating, serves } = props;
   const navigate = useNavigate();
   const filledStars = Math.round(rating);
 
@@ -34,7 +34,7 @@ const RecipeCard = (props: RecipeCardType) => {
               <circle cx="12" cy="12" r="9" />
               <path d="M12 7v5l3 2" />
             </svg>
-            {cookingTime}
+            {cookTime}
           </span>
           <span className="recipe-card-meta-item">
             <svg

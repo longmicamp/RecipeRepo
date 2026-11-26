@@ -1,38 +1,23 @@
-import type { RecipeCardData } from "../types/recipe-data";
+import type {
+  CookTime,
+  Difficulty,
+  Ingredient,
+  NewRecipe,
+  Recipe,
+  RecipeCardData,
+  Step,
+} from "../types/recipe-data";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   "https://container-app-c9b4.bravewater-eec3c7fa.westus2.azurecontainerapps.io";
-
-export type Difficulty = "Easy" | "Medium" | "Hard";
-export type CookingTime = { hours: number; minutes: number };
-export type Ingredient = {
-  quantityAmount: string;
-  quantityUnit: string;
-  name: string;
-};
-export type Step = { step: number; text: string; imageUrl: string | null };
-
-export type Recipe = {
-  id: number;
-  name: string;
-  description?: string;
-  difficulty?: Difficulty; // honestly optional
-  rating?: number;
-  cookingTime: CookingTime;
-  serves: number;
-  createdUserId: string;
-  ingredients: Ingredient[];
-  steps: Step[];
-  imageUrl?: string;
-};
 
 export class RecipeCard {
   id!: number;
   recipeId!: number;
   createdUserId!: string;
   title!: string;
-  cookingTime!: string;
+  cookTime!: string;
   category!: string;
   rating!: number;
   serves!: number;
@@ -52,6 +37,25 @@ export async function getRecipe(recipeId: string): Promise<Recipe> {
 
   const data = await response.json();
   return formatRecipeData(data);
+}
+
+export async function createRecipe(
+  recipe: NewRecipe,
+  token: string,
+): Promise<string> {
+  const response = await fetch(`${API_BASE_URL}/api/recipes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(recipe),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to create recipe");
+  }
+  const data = await response.json();
+  return String(data.recipeId);
 }
 
 export async function getRecipes(token: string): Promise<RecipeCard[]> {
@@ -76,7 +80,7 @@ function formatRecipeCardData(data: any): RecipeCard {
     id: data.recipeId,
     recipeId: data.recipeId,
     title: data.name,
-    cookingTime: `${data.cookTime.hours}h ${data.cookTime.minutes}m`,
+    cookTime: `${data.cookTime.hours}h ${data.cookTime.minutes}m`,
     category: data.category ?? "",
     rating: data.rating,
     serves: data.serves,
@@ -90,7 +94,7 @@ type RecipeApiResponse = {
   description?: string;
   difficulty?: Difficulty;
   rating?: number;
-  cookTime: CookingTime;
+  cookTime: CookTime;
   serves: number;
   createdUserId: string;
   ingredients: Ingredient[];
@@ -105,7 +109,7 @@ function formatRecipeData(data: RecipeApiResponse): Recipe {
     description: data.description,
     difficulty: data.difficulty,
     rating: data.rating,
-    cookingTime: data.cookTime,
+    cookTime: data.cookTime,
     serves: data.serves,
     createdUserId: data.createdUserId,
     ingredients: data.ingredients,

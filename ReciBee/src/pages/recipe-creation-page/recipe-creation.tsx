@@ -2,17 +2,23 @@ import { useReducer, useRef, useState } from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useNavigate } from "react-router";
 import "./recipe-creation.css";
+import { useCreateRecipe } from "../../hooks/useRecipe";
+import type { Difficulty, NewRecipe, Recipe } from "../../types/recipe-data";
+import { Oval } from "react-loader-spinner";
+import { useLocation } from "react-router";
+import { useActionState } from "react";
 
 type Ingredient = { amount: string; unit: string; name: string };
 type Step = { text: string; image: File | null; previewUrl: string | null };
 
 const initialState = {
   recipeName: "",
-  prepTime: "",
+  prepHours: "",
+  prepMinutes: "",
   serves: "",
   category: "",
   difficulty: "",
-  notes: "",
+  description: "",
   ingredients: [{ amount: "", unit: "", name: "" }] as Ingredient[],
   steps: [{ text: "", image: null, previewUrl: null }] as Step[],
 };
@@ -29,15 +35,6 @@ const UNIT_OPTIONS = [
   "clove",
   "pinch",
   "slice",
-];
-
-const PREP_TIME_OPTIONS = [
-  "Under 15 minutes",
-  "15 - 30 minutes",
-  "30 - 45 minutes",
-  "45 - 60 minutes",
-  "1 - 2 hours",
-  "Over 2 hours",
 ];
 
 const SERVES_OPTIONS = ["1", "2", "3", "4", "5", "6", "8", "10", "12+"];
@@ -58,25 +55,30 @@ const DIFFICULTY_OPTIONS = ["Easy", "Medium", "Hard"];
 function RecipeCreationPage() {
   const navigate = useNavigate();
   const heroInputRef = useRef<HTMLInputElement>(null);
+  const { createdId, loading, createRecipe } = useCreateRecipe();
+  const location = useLocation();
+  const editRecipe = location.state?.recipe;
 
-  type state = {
+  type State = {
     recipeName: string;
-    prepTime: string;
+    prepHours: string;
+    prepMinutes: string;
     serves: string;
     category: string;
     difficulty: string;
-    notes: string;
+    description: string;
     ingredients: Ingredient[];
     steps: Step[];
   };
 
   type action =
     | { type: "SET_RECIPE_NAME"; payload: string }
-    | { type: "SET_PREP_TIME"; payload: string }
+    | { type: "SET_PREP_HOURS"; payload: string }
+    | { type: "SET_PREP_MINUTES"; payload: string }
     | { type: "SET_SERVES"; payload: string }
     | { type: "SET_CATEGORY"; payload: string }
     | { type: "SET_DIFFICULTY"; payload: string }
-    | { type: "SET_NOTES"; payload: string }
+    | { type: "SET_DESCRIPTION"; payload: string }
     | {
         type: "UPDATE_STEP";
         payload: { index: number; field: keyof Step; value: string };
@@ -99,20 +101,22 @@ function RecipeCreationPage() {
       }
     | { type: "REMOVE_STEP"; payload: number };
 
-  const reducer = (state: state, action: action): state => {
+  const reducer = (state: State, action: action): State => {
     switch (action.type) {
       case "SET_RECIPE_NAME":
         return { ...state, recipeName: action.payload };
-      case "SET_PREP_TIME":
-        return { ...state, prepTime: action.payload };
+      case "SET_PREP_HOURS":
+        return { ...state, prepHours: action.payload };
+      case "SET_PREP_MINUTES":
+        return { ...state, prepMinutes: action.payload };
       case "SET_SERVES":
         return { ...state, serves: action.payload };
       case "SET_CATEGORY":
         return { ...state, category: action.payload };
       case "SET_DIFFICULTY":
         return { ...state, difficulty: action.payload };
-      case "SET_NOTES":
-        return { ...state, notes: action.payload };
+      case "SET_DESCRIPTION":
+        return { ...state, description: action.payload };
       case "UPDATE_STEP":
         return {
           ...state,
@@ -181,7 +185,58 @@ function RecipeCreationPage() {
     }
   };
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  function toFormState(recipe: Recipe) {
+    return {
+      id: recipe.id,
+      recipeName: recipe.name,
+      description: recipe.description || "",
+      difficulty: recipe.difficulty || "",
+      category: recipe.category || "",
+      prepHours: recipe.cookTime?.hours?.toString() || "0",
+      prepMinutes: recipe.cookTime?.minutes?.toString() || "0",
+      serves: recipe.serves?.toString() || "1",
+      ingredients: recipe.ingredients.map((i) => ({
+        amount: i.quantityAmount || "",
+        unit: i.quantityUnit || "",
+        name: i.name,
+      })),
+      steps: recipe.steps.map((s) => ({
+        text: s.text,
+        image: null,
+        previewUrl: null,
+      })),
+    };
+  }
+
+  function toNewRecipe(state: State): NewRecipe {
+    console.log("category:", state.category);
+    return {
+      name: state.recipeName.trim(),
+      description: state.description.trim() || undefined,
+      difficulty: (state.difficulty || undefined) as Difficulty | undefined,
+      category: state.category || undefined,
+      cookTime: {
+        hours: parseInt(state.prepHours, 10) || 0,
+        minutes: parseInt(state.prepMinutes, 10) || 0,
+      },
+      serves: parseInt(state.serves, 10) || 1, // "12+" → 12
+      createdDate: new Date().toISOString(),
+      ingredients: state.ingredients
+        .filter((i) => i.name.trim()) // drop blank rows
+        .map((i) => ({
+          quantityAmount: i.amount.trim(),
+          quantityUnit: i.unit,
+          name: i.name.trim(),
+        })),
+      steps: state.steps
+        .filter((s) => s.text.trim())
+        .map((s, i) => ({ step: i + 1, text: s.text.trim(), imageUrl: null })),
+    };
+  }
+
+  const [state, dispatch] = useReducer(reducer, editRecipe, (r) =>
+    r ? toFormState(r) : initialState,
+  );
 
   const [heroImage, setHeroImage] = useState<File | null>(null);
   const [heroPreviewUrl, setHeroPreviewUrl] = useState<string | null>(null);
@@ -219,9 +274,15 @@ function RecipeCreationPage() {
     if (heroInputRef.current) heroInputRef.current.value = "";
   };
 
-  const handleSave = () => {
-    // TODO: POST to /api/recipes once the create endpoint is wired up.
-    console.log("recipe draft:", { ...state, heroImage });
+  const handleSave = async () => {
+    const recipe = toNewRecipe(state);
+    if (!recipe.name) return setFormError("Give your recipe a name.");
+    if (!recipe.ingredients.length)
+      return setFormError("Add at least one ingredient.");
+    if (!recipe.steps.length) return setFormError("Add at least one step.");
+
+    const id = await createRecipe(recipe);
+    if (id) navigate(`/recipe`, { state: { id } });
   };
 
   return (
@@ -319,26 +380,68 @@ function RecipeCreationPage() {
           </div>
           {imageError && <p className="field-error">{imageError}</p>}
         </div>
-
+        if (this.loading){" "}
+        {
+          <div className="loading-spinner">
+            <Oval
+              height={40}
+              width={40}
+              color="#f6763b"
+              secondaryColor="#e0e0e0"
+              ariaLabel="oval-loading"
+            />
+          </div>
+        }
         <div className="details-column">
           <div className="details-grid">
-            <label className="field">
-              <span className="field-label">Prep Time</span>
-              <select
-                className="field-input"
-                value={state.prepTime}
-                onChange={(e) =>
-                  dispatch({ type: "SET_PREP_TIME", payload: e.target.value })
-                }
-              >
-                <option value="">Select prep time</option>
-                {PREP_TIME_OPTIONS.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <div
+              className="field"
+              role="group"
+              aria-labelledby="prep-time-label"
+            >
+              <span className="field-label" id="prep-time-label">
+                Prep Time
+              </span>
+              <div className="time-inputs">
+                <div className="time-input">
+                  <input
+                    className="field-input"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    placeholder="0"
+                    aria-label="Hours"
+                    value={state.prepHours}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "SET_PREP_HOURS",
+                        payload: e.target.value,
+                      })
+                    }
+                  />
+                  <span className="time-unit">hrs</span>
+                </div>
+                <div className="time-input">
+                  <input
+                    className="field-input"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    max={59}
+                    placeholder="0"
+                    aria-label="Minutes"
+                    value={state.prepMinutes}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "SET_PREP_MINUTES",
+                        payload: e.target.value,
+                      })
+                    }
+                  />
+                  <span className="time-unit">mins</span>
+                </div>
+              </div>
+            </div>
 
             <label className="field">
               <span className="field-label">Serves</span>
@@ -399,185 +502,186 @@ function RecipeCreationPage() {
             <span className="field-label">Notes</span>
             <textarea
               className="field-input notes-input"
-              value={state.notes}
+              value={state.description}
               placeholder="Anything worth remembering next time..."
               onChange={(e) =>
-                dispatch({ type: "SET_NOTES", payload: e.target.value })
+                dispatch({ type: "SET_DESCRIPTION", payload: e.target.value })
               }
             />
           </label>
         </div>
       </section>
 
-      <section className="creation-section">
-        <div className="section-header">
+      <div className="ingredients-steps-row">
+        <section className="creation-section">
           <h2 className="section-title">Ingredients</h2>
-          <button
-            className="add-button"
-            onClick={() => dispatch({ type: "ADD_INGREDIENT" })}
-          >
-            + Add Ingredient
-          </button>
-        </div>
 
-        <div className="row-list">
-          {state.ingredients.map((ingredient, index) => (
-            <div className="ingredient-row" key={index}>
-              <input
-                className="field-input ingredient-amount"
-                type="text"
-                value={ingredient.amount}
-                placeholder="Amount"
-                onChange={(e) =>
-                  dispatch({
-                    type: "UPDATE_INGREDIENT",
-                    payload: {
-                      index,
-                      field: "amount",
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <select
-                className="field-input ingredient-unit"
-                value={ingredient.unit}
-                onChange={(e) =>
-                  dispatch({
-                    type: "UPDATE_INGREDIENT",
-                    payload: {
-                      index,
-                      field: "unit",
-                      value: e.target.value,
-                    },
-                  })
-                }
-              >
-                <option value="">Unit</option>
-                {UNIT_OPTIONS.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-              <input
-                className="field-input ingredient-name"
-                type="text"
-                value={ingredient.name}
-                placeholder="Ingredient name"
-                onChange={(e) =>
-                  dispatch({
-                    type: "UPDATE_INGREDIENT",
-                    payload: {
-                      index,
-                      field: "name",
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <button
-                className="remove-button"
-                aria-label={`Remove ingredient ${index + 1}`}
-                disabled={state.ingredients.length === 1}
-                onClick={() =>
-                  dispatch({ type: "REMOVE_INGREDIENT", payload: index })
-                }
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="creation-section">
-        <div className="section-header">
-          <h2 className="section-title">Steps</h2>
-          <button
-            className="add-button"
-            onClick={() => dispatch({ type: "ADD_STEP" })}
-          >
-            + Add Step
-          </button>
-        </div>
-
-        <div className="row-list">
-          {state.steps.map((step, index) => (
-            <div className="step-row" key={index}>
-              <span className="step-number">{index + 1}</span>
-              <div className="step-body">
-                <textarea
-                  className="field-input step-text"
-                  value={step.text}
-                  placeholder={`Describe step ${index + 1}`}
+          <div className="row-list">
+            {state.ingredients.map((ingredient, index) => (
+              <div className="ingredient-row" key={index}>
+                <input
+                  className="field-input ingredient-amount"
+                  type="text"
+                  value={ingredient.amount}
+                  placeholder="Amount"
                   onChange={(e) =>
                     dispatch({
-                      type: "UPDATE_STEP",
+                      type: "UPDATE_INGREDIENT",
                       payload: {
                         index,
-                        field: "text",
+                        field: "amount",
                         value: e.target.value,
                       },
                     })
                   }
                 />
-                <div className="step-image-row">
-                  <label className="step-image-button">
-                    {step.image ? "Change Image" : "Add Image (optional)"}
-                    <input
-                      className="visually-hidden"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) =>
-                        dispatch({
-                          type: "UPDATE_STEP_IMAGE",
-                          payload: {
-                            index,
-                            file: e.target.files?.[0] ?? null,
-                          },
-                        })
-                      }
-                    />
-                  </label>
-                  {step.previewUrl && (
-                    <div className="step-image-preview">
-                      <img
-                        className="step-preview-img"
-                        src={step.previewUrl}
-                        alt={`Step ${index + 1}`}
-                      />
-                      <button
-                        className="remove-button"
-                        onClick={() =>
+                <select
+                  className="field-input ingredient-unit"
+                  value={ingredient.unit}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "UPDATE_INGREDIENT",
+                      payload: {
+                        index,
+                        field: "unit",
+                        value: e.target.value,
+                      },
+                    })
+                  }
+                >
+                  <option value="">Unit</option>
+                  {UNIT_OPTIONS.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="field-input ingredient-name"
+                  type="text"
+                  value={ingredient.name}
+                  placeholder="Ingredient name"
+                  onChange={(e) =>
+                    dispatch({
+                      type: "UPDATE_INGREDIENT",
+                      payload: {
+                        index,
+                        field: "name",
+                        value: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <button
+                  className="remove-button"
+                  aria-label={`Remove ingredient ${index + 1}`}
+                  disabled={state.ingredients.length === 1}
+                  onClick={() =>
+                    dispatch({ type: "REMOVE_INGREDIENT", payload: index })
+                  }
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            className="add-button add-button-below"
+            onClick={() => dispatch({ type: "ADD_INGREDIENT" })}
+          >
+            + Add Ingredient
+          </button>
+        </section>
+
+        <section className="creation-section">
+          <h2 className="section-title">Steps</h2>
+
+          <div className="row-list">
+            {state.steps.map((step, index) => (
+              <div className="step-row" key={index}>
+                <span className="step-number">{index + 1}</span>
+                <div className="step-body">
+                  <textarea
+                    className="field-input step-text"
+                    value={step.text}
+                    placeholder={`Describe step ${index + 1}`}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "UPDATE_STEP",
+                        payload: {
+                          index,
+                          field: "text",
+                          value: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <div className="step-image-row">
+                    <label className="step-image-button">
+                      {step.image ? "Change Image" : "Add Image (optional)"}
+                      <input
+                        className="visually-hidden"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) =>
                           dispatch({
                             type: "UPDATE_STEP_IMAGE",
-                            payload: { index, file: null },
+                            payload: {
+                              index,
+                              file: e.target.files?.[0] ?? null,
+                            },
                           })
                         }
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  )}
+                      />
+                    </label>
+                    {step.previewUrl && (
+                      <div className="step-image-preview">
+                        <img
+                          className="step-preview-img"
+                          src={step.previewUrl}
+                          alt={`Step ${index + 1}`}
+                        />
+                        <button
+                          className="remove-button"
+                          onClick={() =>
+                            dispatch({
+                              type: "UPDATE_STEP_IMAGE",
+                              payload: { index, file: null },
+                            })
+                          }
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
+                <button
+                  className="remove-button"
+                  aria-label={`Remove step ${index + 1}`}
+                  disabled={state.steps.length === 1}
+                  onClick={() =>
+                    dispatch({ type: "REMOVE_STEP", payload: index })
+                  }
+                >
+                  Remove
+                </button>
               </div>
-              <button
-                className="remove-button"
-                aria-label={`Remove step ${index + 1}`}
-                disabled={state.steps.length === 1}
-                onClick={() =>
-                  dispatch({ type: "REMOVE_STEP", payload: index })
-                }
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+          <button
+            className="add-button add-button-below"
+            onClick={() => dispatch({ type: "ADD_STEP" })}
+          >
+            + Add Step
+          </button>
+        </section>
+      </div>
     </div>
   );
 }
 
 export default RecipeCreationPage;
+function setFormError(arg0: string) {
+  throw new Error("Function not implemented.");
+}

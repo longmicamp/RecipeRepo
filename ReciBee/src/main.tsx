@@ -11,13 +11,14 @@ import RecipeCreationPage from "./pages/recipe-creation-page/recipe-creation.tsx
 
 const hostName = window.location.origin;
 
-const cognitoAuthConfig = {
+const authConfig = {
   authority:
-    "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_rcqwarb2z",
-  client_id: "20qf3imk30mr42205id1b1h1da",
+    "https://TheGreasePitUsers.ciamlogin.com/6dae5b99-cf39-424e-9a2b-ff04d610f0a5/v2.0",
+  client_id: "61d0465f-6736-4785-b270-c3e298cfb2f4",
   redirect_uri: `${hostName}/home`,
   response_type: "code",
-  scope: "email openid phone",
+  scope:
+    "email openid profile offline_access api://a5b15563-c430-4372-a0bc-90b1db361d70/recipes.readwrite",
   // Default is sessionStorage, which is per-tab and lost if the flow lands in a
   // different browsing context than the one that started it — the usual cause of
   // "No matching state found in storage".
@@ -30,7 +31,7 @@ const onSigninCallback = (): void => {
 };
 
 createRoot(document.getElementById("root")!).render(
-  <AuthProvider {...cognitoAuthConfig} onSigninCallback={onSigninCallback}>
+  <AuthProvider {...authConfig} onSigninCallback={onSigninCallback}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
